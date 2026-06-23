@@ -236,6 +236,7 @@ function ec(){
   var b=new Blob([csv],{type:'text/csv;charset=utf-8'});
   var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='survey_'+new Date().toISOString().slice(0,10)+'.csv';a.click();st('\u5bfc\u51fa\u6210\u529f')
 }if(!e.target.closest('input,textarea,select')){if(e.key==='ArrowRight')ns();if(e.key==='ArrowLeft')ps()}});
+ra();
 document.getElementById('loginPass').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin()});
 document.addEventListener('DOMContentLoaded',function(){ra()});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){hideLogin();closeDetail()}if(!e.target.closest('input,textarea,select')){if(e.key==='ArrowRight')ns();if(e.key==='ArrowLeft')ps()}});
