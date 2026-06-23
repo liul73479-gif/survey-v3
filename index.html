@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>绣花机用户体验收集表</title>
+<style>
+:root{--bg:#f5f5f0;--surface:#fff;--text:#2c2c2c;--t2:#6b6b6b;--border:#e0e0d8;--accent:#8b5e3c;--al:#f0e6dc;--danger:#c0392b;--success:#2d6a4f;--r:6px;--font:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6}
+.c{max-width:860px;margin:0 auto;padding:24px 20px 60px}
+.hd{background:linear-gradient(135deg,#3a2a1a,#5a3e28);color:#fff;padding:40px 32px 36px;border-radius:10px 10px 0 0;position:relative;overflow:hidden}
+.hd::after{content:'';position:absolute;top:-30px;right:-30px;width:140px;height:140px;border:2px solid rgba(255,255,255,.1);border-radius:50%}
+.hd h1{font-size:26px;font-weight:700;margin-bottom:6px}
+.hd p{font-size:14px;opacity:.8}
+.pw{background:var(--surface);padding:20px 32px;border-bottom:1px solid var(--border)}
+.pi{display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;color:var(--t2)}
+.pb{height:6px;background:#eee;border-radius:3px;overflow:hidden}
+.pbf{height:100%;background:var(--accent);border-radius:3px;transition:width .35s}
+.tabs{display:flex;overflow-x:auto;background:var(--surface);border-bottom:1px solid var(--border);-webkit-overflow-scrolling:touch}
+.tab{flex-shrink:0;padding:14px 18px;font-size:14px;color:var(--t2);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;font-family:var(--font)}
+.tab:hover{color:var(--text)}.tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+.fb{background:var(--surface);border-radius:0 0 10px 10px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.sec{display:none;padding:32px}.sec.active{display:block}
+.st{font-size:17px;font-weight:700;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--border);color:#3a2a1a}
+.sd{font-size:13px;color:var(--t2);margin:-20px 0 20px}
+.fg{margin-bottom:22px}
+label{display:block;font-size:14px;font-weight:600;margin-bottom:6px;color:#333}
+label .qn{color:var(--accent);font-size:12px;margin-right:4px}
+input[type="text"],input[type="email"],input[type="password"],select,textarea{width:100%;padding:10px 14px;font-size:14px;border:1px solid var(--border);border-radius:var(--r);font-family:var(--font);background:#fafaf8;transition:border-color .2s,box-shadow .2s;color:var(--text)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--al)}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6b6b' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer}
+textarea{resize:vertical;min-height:90px}
+.rg{display:flex;flex-wrap:wrap;gap:8px}
+.ri{position:relative}.ri input{position:absolute;opacity:0;pointer-events:none}
+.ri label{display:inline-block;padding:8px 16px;font-size:13px;font-weight:500;border:1px solid var(--border);border-radius:20px;cursor:pointer;transition:all .15s;background:#fff;user-select:none}
+.ri input:checked+label{border-color:var(--accent);background:var(--al);color:var(--accent)}
+.sg{display:flex;gap:4px}
+.star{font-size:28px;color:#d0d0c8;cursor:pointer;transition:color .15s;user-select:none}
+.star.sel{color:#e6b422}
+.srl{font-size:13px;color:var(--t2);margin-top:4px;min-height:18px}
+.nb{display:flex;justify-content:space-between;margin-top:28px;padding-top:20px;border-top:1px solid var(--border)}
+.btn{padding:10px 24px;font-size:14px;font-weight:600;border-radius:var(--r);cursor:pointer;border:none;font-family:var(--font);transition:all .2s}
+.bp{background:#f0f0ea;color:#555}.bp:hover{background:#e5e5de}
+.bn{background:var(--accent);color:#fff}.bn:hover{background:#755033}
+.bs{background:var(--success);color:#fff;padding:12px 36px}.bs:hover{background:#1e5a3e}
+.req{color:var(--danger);margin-left:2px}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .5s linear infinite;margin-left:8px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#2c2c2c;color:#fff;padding:12px 28px;border-radius:8px;font-size:14px;z-index:1000;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+.admlink{text-align:center;padding:20px;font-size:12px}
+.admlink a{color:var(--t2);text-decoration:none;opacity:.4}
+.admlink a:hover{opacity:.8}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:2000}
+.modal-overlay.show{display:flex}
+.modal{background:var(--surface);border-radius:12px;width:100%;max-width:420px;box-shadow:0 8px 30px rgba(0,0,0,.2);padding:32px}
+.modal h2{font-size:18px;margin-bottom:20px;color:#3a2a1a}
+.modal .fg{margin-bottom:16px}
+.modal .btn{width:100%;margin-top:8px}
+.modal-err{color:var(--danger);font-size:13px;margin-top:8px;display:none}
+.c2{max-width:1200px;margin:0 auto;padding:24px 20px}
+.tb{display:flex;justify-content:space-between;align-items:center;background:var(--surface);padding:16px 24px;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.tb h2{font-size:18px;color:#3a2a1a}
+.tb .stats{font-size:13px;color:var(--t2);display:flex;gap:20px}
+.tb .stats strong{color:var(--accent);font-size:20px}
+.btn-sm{padding:6px 14px;font-size:12px;font-weight:600;border-radius:var(--r);cursor:pointer;border:none;font-family:var(--font)}
+.btn-out{background:#f0f0ea;color:#555}.btn-out:hover{background:#ddd}
+.btn-exp{background:var(--success);color:#fff}.btn-exp:hover{background:#1e5a3e}
+.btn-rf{background:var(--accent);color:#fff}.btn-rf:hover{background:#755033}
+table{width:100%;border-collapse:collapse;background:var(--surface);border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+th,td{padding:10px 12px;text-align:left;font-size:13px}
+th{background:#fafaf8;font-weight:600;color:var(--t2);border-bottom:2px solid var(--border)}
+td{border-bottom:1px solid #f0f0ea}tr:hover{background:#fcfcf8}
+.empty2{padding:40px;text-align:center;color:var(--t2);font-size:15px}
+@media(max-width:600px){.c{padding:12px 8px 40px}.hd{padding:28px 20px 24px}.hd h1{font-size:20px}.sec{padding:20px 16px}.tab{padding:12px 14px;font-size:13px}}
+.dm{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:2500;overflow-y:auto;align-items:flex-start;justify-content:center;padding:20px}.dmc{background:var(--surface);border-radius:12px;width:100%;max-width:700px;box-shadow:0 8px 30px rgba(0,0,0,.15);margin:20px 0}.dmh{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid var(--border)}.dmh h2{font-size:17px;color:#3a2a1a}.dmcl{background:none;border:none;font-size:22px;cursor:pointer;color:var(--t2);padding:0 4px}.dmb{padding:24px}.dmb table{box-shadow:none;border-radius:0;width:100%}.dmb th{background:#fafaf8}</style>
+</head>
+<body>
+<div id="surveyView"><div class="c">
+<div class="hd"><h1>绣花机用户体验收集表</h1><p>感谢参与。共 61 题，10 个模块，约 12-18 分钟。</p></div>
+<div class="pw"><div class="pi"><span id="pl">已填写 0 / 61</span><span id="pp">0%</span></div><div class="pb"><div class="pbf" id="pf" style="width:0%"></div></div></div>
+<div class="tabs" id="tabs"></div>
+<form id="sf" class="fb"><div id="secs"></div>
+<div class="nb"><button type="button" class="btn bp" id="bp" onclick="ps()">上一页</button><span style="font-size:13px;color:var(--t2);align-self:center" id="si">1/10</span><button type="button" class="btn bn" id="bn" onclick="ns()">下一页</button><button type="submit" class="btn bs" id="bs" style="display:none">提交问卷</button></div></form>
+</div><div class="admlink"><a href="#" onclick="showLogin();return false">管理员登录</a></div></div>
+
+<div id="adminView" style="display:none"><div class="c2">
+<div class="tb"><div><h2>后台管理 - 绣花机问卷收集</h2><div class="stats"><span>总提交: <strong id="tc">0</strong> 今日: <strong id="tdc">0</strong> 最新: <strong id="lt">--</strong></span></div></div>
+<div style="display:flex;gap:8px"><button class="btn-sm btn-exp" onclick="ec()">查看提交</button><button class="btn-sm btn-out" onclick="doLogout()">退出</button></div></div>
+<table><thead><tr><th>#</th><th>姓名</th><th>职业</th><th>品牌/型号</th><th>评分</th><th>提交时间</th><th>操作</th></tr></thead><tbody id="tb"></tbody></table>
+</div></div>
+
+<div class="modal-overlay" id="loginOverlay"><div class="modal">
+<h2>管理员登录</h2><div class="fg"><label>账号</label><input type="text" id="loginUser" placeholder="请输入管理员账号"></div>
+<div class="fg"><label>密码</label><input type="password" id="loginPass" placeholder="请输入密码"></div>
+<div class="modal-err" id="loginErr"></div>
+<button class="btn bn" onclick="doLogin()">登录</button><button class="btn bp" onclick="hideLogin()" style="margin-top:4px">取消</button>
+</div></div>
+
+<div class="toast" id="toast"></div>
+<script>var SECTIONS=[
+{id:'s1',title:'一、基本信息',desc:'请填写您的基本个人资料。',fields:[
+{id:'name',type:'text',label:'您的姓名',req:true,ph:'请输入姓名'},
+{id:'gender',type:'radio',label:'性别',req:true,opts:['男','女','不愿透露']},
+{id:'age',type:'radio',label:'年龄段',req:true,opts:['18-25岁','26-35岁','36-45岁','46-55岁','56岁以上']},
+{id:'experience',type:'radio',label:'从事绣花/纺织相关工作的年限',req:true,opts:['1年以下','1-3年','4-7年','8-15年','15年以上']},
+{id:'role',type:'radio',label:'您的职业角色',req:true,opts:['个体经营者','车间操作工','技术主管/师傅','设计师/打版师','工厂管理者','设备采购','其他']}]},
+{id:'s2',title:'二、设备信息',desc:'请提供您所使用的绣花机基本信息。',fields:[
+{id:'brand',type:'text',label:'绣花机品牌',req:true,ph:'如：兄弟、百福、田岛、胜家等'},
+{id:'model',type:'text',label:'机器型号',req:true,ph:'请输入具体型号'},
+{id:'heads',type:'radio',label:'机器头数',req:true,opts:['单头','2-4头','6-8头','10-15头','16头以上']},
+{id:'purchaseYear',type:'radio',label:'购买年份',req:true,opts:['2025-2026年','2023-2024年','2020-2022年','2017-2019年','2016年及以前']},
+{id:'priceRange',type:'radio',label:'购买价格区间（人民币）',req:true,opts:['2万元以下','2-5万元','5-15万元','15-30万元','30-50万元','50万元以上']},
+{id:'usage',type:'checkbox',label:'主要用途（可多选）',req:true,opts:['服装绣花','帽子绣花','鞋面绣花','家纺/布艺','商标/徽章','工艺礼品','牛仔绣花','其他']}]},
+{id:'s3',title:'三、操作易用性',desc:'1=非常不满意，5=非常满意',fields:[
+{id:'startupSpeed',type:'star',label:'开机启动速度',req:true},{id:'touchResponse',type:'star',label:'操作面板/触摸屏响应灵敏度',req:true},
+{id:'menuClarity',type:'star',label:'菜单导航逻辑清晰度',req:true},{id:'buttonLayout',type:'star',label:'按键/旋钮布局合理性',req:true},
+{id:'displayReadability',type:'star',label:'显示屏信息可读性',req:true},{id:'langSupport',type:'star',label:'语言支持满意度',req:true},
+{id:'manualClarity',type:'star',label:'操作手册易懂程度',req:true},{id:'learningCurve',type:'star',label:'新手学习上手速度',req:true},
+{id:'dailyConvenience',type:'star',label:'日常操作整体便捷性',req:true}]},
+{id:'s4',title:'四、绣花质量',desc:'1=非常不满意，5=非常满意',fields:[
+{id:'stitchPrecision',type:'star',label:'绣花精度',req:true},{id:'threadBreak',type:'star',label:'断线频率（越少越满意）',req:true},
+{id:'stitchUniformity',type:'star',label:'线迹均匀度',req:true},{id:'complexPattern',type:'star',label:'复杂图案还原度',req:true},
+{id:'fabricAdapt',type:'star',label:'不同面料适应性',req:true},{id:'skipStitch',type:'star',label:'跳针/漏针控制',req:true},
+{id:'bobbinTension',type:'star',label:'底线张力稳定性',req:true}]},
+{id:'s5',title:'五、软件与设计体验',desc:'1=非常不满意，5=非常满意',fields:[
+{id:'softwareCompat',type:'star',label:'设计软件兼容性',req:true},{id:'fileTransfer',type:'star',label:'花样文件传输便捷性',req:true},
+{id:'importSpeed',type:'star',label:'USB/网络导入速度',req:true},{id:'builtinPatterns',type:'star',label:'内置花样丰富度',req:true},
+{id:'patternEdit',type:'star',label:'花样编辑功能',req:true},{id:'previewAccuracy',type:'star',label:'花样预览准确度',req:true},
+{id:'softwareUpdate',type:'star',label:'软件升级频率与稳定性',req:true}]},
+{id:'s6',title:'六、维护与故障处理',desc:'1=非常不满意，5=非常满意',fields:[
+{id:'dailyCleaning',type:'star',label:'日常清洁便利性',req:true},{id:'autoLube',type:'star',label:'自动/半自动润滑功能',req:true},
+{id:'alarmAccuracy',type:'star',label:'故障报警准确度',req:true},{id:'faultRecovery',type:'star',label:'故障恢复难度',req:true},
+{id:'partsReplace',type:'star',label:'易损件更换便捷性',req:true},{id:'partsAvailability',type:'star',label:'配件市场可得性',req:true},
+{id:'durability',type:'star',label:'机器整体耐用性',req:true}]},
+{id:'s7',title:'七、噪音与振动',desc:'1=非常不满意，5=非常满意',fields:[
+{id:'noiseHighSpeed',type:'star',label:'高速运行时的噪音水平',req:true},{id:'vibrationLevel',type:'star',label:'机器整体振动程度',req:true},
+{id:'noiseEnv',type:'star',label:'噪音对工作环境的影响',req:true},{id:'dampeningDesign',type:'star',label:'减震/降噪设计效果',req:true},
+{id:'longOpComfort',type:'star',label:'长时间操作舒适度',req:true}]},
+{id:'s8',title:'八、配件与耗材',desc:'1=非常不满意，5=非常满意',fields:[
+{id:'hoopQuality',type:'star',label:'原装绣框质量',req:true},{id:'threadCompat',type:'star',label:'绣花线适配性',req:true},
+{id:'bobbinAvailability',type:'star',label:'底线/梭芯易购性',req:true},{id:'needleLife',type:'star',label:'机针耐用度',req:true},
+{id:'accessoryPack',type:'star',label:'随机器配件包完整度',req:true}]},
+{id:'s9',title:'九、客户服务',desc:'1=非常不满意，5=非常满意',fields:[
+{id:'afterSalesSpeed',type:'star',label:'售后响应速度',req:true},{id:'techProfessionalism',type:'star',label:'维修人员专业度',req:true},
+{id:'warrantyPolicy',type:'star',label:'保修政策满意度',req:true},{id:'onlineSupport',type:'star',label:'在线客服/远程支持可及性',req:true},
+{id:'communityTraining',type:'star',label:'用户社区/培训资源丰富度',req:true}]},
+{id:'s10',title:'十、整体评价与建议',desc:'请给出综合评价和宝贵建议。',fields:[
+{id:'valueRating',type:'star',label:'性价比总体评价',req:true},
+{id:'recommend',type:'radio',label:'是否会向同行推荐此品牌/型号？',req:true,opts:['一定会推荐','可能会推荐','不确定','可能不会','肯定不会']},
+{id:'bestFeature',type:'textarea',label:'最满意的功能或体验',req:true,ph:'请描述最满意的方面'},
+{id:'worstPainPoint',type:'textarea',label:'最希望改进的问题',req:true,ph:'请描述最需要改进的地方'},
+{id:'additionalComment',type:'textarea',label:'其他补充建议',ph:'如有其他想说的，请在此留言……'}]}];
+var SUBMIT_URL='https://webhook.site/533daaad-aab3-4b80-84b5-aa15f759e17e';
+var ADMIN_URL='https://webhook.site/#!/view/533daaad-aab3-4b80-84b5-aa15f759e17e';
+var cs=0,ans={},TOKEN=localStorage.getItem('admtoken')||'';
+function ra(){
+  var te=document.getElementById('tabs');
+  te.innerHTML=SECTIONS.map(function(s,i){return '<button class="tab'+(i===0?' active':'')+'" onclick="go('+i+')">'+s.title+'</button>'}).join('');
+  var se=document.getElementById('secs');
+  se.innerHTML=SECTIONS.map(function(s,si){var h='<div class="sec'+(si===0?' active':'')+'" data-s="'+si+'"><div class="st">'+s.title+'</div>'+(s.desc?'<div class="sd">'+s.desc+'</div>':'');s.fields.forEach(function(f){var gi=ggi(si,f),q='<span class="qn">Q'+(gi+1)+'</span>',r=f.req?'<span class="req">*</span>':'';h+='<div class="fg"><label>'+q+f.label+r+'</label>';switch(f.type){case'text':h+='<input type="text" id="'+f.id+'" placeholder="'+(f.ph||'')+'" onchange="up()" oninput="up()">';break;case'radio':h+='<div class="rg">'+f.opts.map(function(o){return'<div class="ri"><input type="radio" name="'+f.id+'" id="'+f.id+'_'+o+'" value="'+o+'" onchange="up()"><label for="'+f.id+'_'+o+'">'+o+'</label></div>'}).join('')+'</div>';break;case'checkbox':h+='<div class="rg">'+f.opts.map(function(o){return'<div class="ri"><input type="checkbox" name="'+f.id+'" id="'+f.id+'_'+o+'" value="'+o+'" onchange="up()"><label for="'+f.id+'_'+o+'">'+o+'</label></div>'}).join('')+'</div>';break;case'textarea':h+='<textarea id="'+f.id+'" placeholder="'+(f.ph||'')+'" onchange="up()" oninput="up()"></textarea>';break;case'star':h+=rst(f.id);break}h+='</div>'});h+='</div>';return h}).join('');
+  up();un()
+}
+function rst(id){var s='<div class="sg" id="star_'+id+'">';for(var i=1;i<=5;i++)s+='<span class="star" data-v="'+i+'" onclick="ss(\''+id+'\','+i+')">\u2605</span>';s+='</div><div class="srl" id="sl_'+id+'"></div>';return s}
+function ss(id,v){var g=document.getElementById('star_'+id);if(!g)return;ans[id]=v;g.querySelectorAll('.star').forEach(function(s,i){s.classList.toggle('sel',i<v)});var lm={1:'非常不满意',2:'不满意',3:'一般',4:'满意',5:'非常满意'},l=document.getElementById('sl_'+id);if(l)l.textContent=lm[v]||'';up()}
+function ggi(si,f){var c=0;for(var i=0;i<si;i++)c+=SECTIONS[i].fields.length;for(var j=0;j<SECTIONS[si].fields.length;j++){if(SECTIONS[si].fields[j].id===f.id)return c+j}return c}
+function gtf(){return SECTIONS.reduce(function(a,s){return a+s.fields.length},0)}
+function ifa(f){if(!f)return false;var e=document.getElementById(f.id);switch(f.type){case'text':case'email':case'textarea':return!!(e&&e.value.trim());case'radio':return!!document.querySelector('input[name="'+f.id+'"]:checked');case'checkbox':return document.querySelectorAll('input[name="'+f.id+'"]:checked').length>0;case'star':return ans[f.id]!==undefined}return false}
+function up(){var t=gtf(),f=0;SECTIONS.forEach(function(s){s.fields.forEach(function(fd){if(ifa(fd))f++})});var p=t>0?Math.round(f/t*100):0;document.getElementById('pf').style.width=p+'%';document.getElementById('pl').textContent='已填写 '+f+' / '+t;document.getElementById('pp').textContent=p+'%'}
+function go(i){var ts=SECTIONS.length;if(i<0||i>=ts)return;document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('active')});var t=document.querySelector('.sec[data-s="'+i+'"]');if(t)t.classList.add('active');document.querySelectorAll('.tab').forEach(function(t,j){t.classList.toggle('active',j===i)});cs=i;un();window.scrollTo({top:0,behavior:'smooth'})}
+function ns(){var ts=SECTIONS.length;if(cs<ts-1)go(cs+1)}
+function ps(){if(cs>0)go(cs-1)}
+function un(){var ts=SECTIONS.length;document.getElementById('bp').style.display=cs===0?'none':'inline-block';document.getElementById('bn').style.display=cs===ts-1?'none':'inline-block';document.getElementById('bs').style.display=cs===ts-1?'inline-block':'none';document.getElementById('si').textContent=(cs+1)+'/'+ts}
+function st(msg,d){d=d||2500;var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},d)}
+document.getElementById('sf').addEventListener('submit',function(e){e.preventDefault();var uf=[];SECTIONS.forEach(function(s,si){s.fields.forEach(function(f){if(f.req&&!ifa(f))uf.push({si:si,f:f})})});if(uf.length>0){go(uf[0].si);st('还有 '+uf.length+' 个必填项未完成',3000);return}var data={};SECTIONS.forEach(function(s){s.fields.forEach(function(f){switch(f.type){case'text':case'email':case'textarea':data[f.id]=document.getElementById(f.id)?document.getElementById(f.id).value:'';break;case'radio':var r=document.querySelector('input[name="'+f.id+'"]:checked');data[f.id]=r?r.value:'';break;case'checkbox':var c=document.querySelectorAll('input[name="'+f.id+'"]:checked');data[f.id]=Array.from(c).map(function(x){return x.value});break;case'star':data[f.id]=ans[f.id]||0}})});var btn=document.getElementById('bs');btn.innerHTML='提交中... <span class="spin"></span>';btn.disabled=true;fetch(SUBMIT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).then(function(){btn.innerHTML='✓ 提交成功';btn.style.background='#2d6a4f';st('感谢反馈！已成功提交。',3000);document.getElementById('sf').querySelectorAll('input,select,textarea').forEach(function(e){e.disabled=true});document.querySelectorAll('.star').forEach(function(s){s.style.pointerEvents='none'})}).catch(function(){btn.innerHTML='提交失败';btn.style.background='#c0392b';btn.disabled=false;st('请检查网络后重试',3000)})});
+function showLogin(){document.getElementById('loginOverlay').classList.add('show');document.getElementById('loginErr').style.display='none';document.getElementById('loginUser').value='';document.getElementById('loginPass').value=''}
+function hideLogin(){document.getElementById('loginOverlay').classList.remove('show')}
+function doLogin(){var u=document.getElementById('loginUser').value.trim();var p=document.getElementById('loginPass').value.trim();if(!u||!p){document.getElementById('loginErr').textContent='请填写账号和密码';document.getElementById('loginErr').style.display='block';return}if(u==='admin'&&p==='123456'){TOKEN='admin-token';localStorage.setItem('admtoken',TOKEN);hideLogin();showAdmin()}else{document.getElementById('loginErr').textContent='账号或密码错误';document.getElementById('loginErr').style.display='block'}}
+function doLogout(){TOKEN='';localStorage.removeItem('admtoken');showSurvey()}
+function showAdmin(){document.getElementById('surveyView').style.display='none';document.getElementById('adminView').style.display='block';ld()}
+function showSurvey(){document.getElementById('adminView').style.display='none';document.getElementById('surveyView').style.display='block'}
+function ld(){
+  var tbody=document.getElementById('tb');
+  tbody.innerHTML='<tr><td colspan="7" class="empty2">加载中...</td></tr>';
+  fetch('https://webhook.site/token/533daaad-aab3-4b80-84b5-aa15f759e17e/requests?sorting=newest&per_page=100',{headers:{'Accept':'application/json'}})
+  .then(function(r){return r.json()})
+  .then(function(resp){
+    var rows=resp.data||[];
+    document.getElementById('tc').textContent=rows.length;
+    var today=new Date().toISOString().slice(0,10);
+    var todayCount=rows.filter(function(r){return r.created_at.slice(0,10)===today}).length;
+    document.getElementById('tdc').textContent=todayCount;
+    if(rows.length>0)document.getElementById('lt').textContent=rows[0].created_at.replace('T',' ').slice(0,19);
+    if(rows.length===0){tbody.innerHTML='<tr><td colspan="7" class="empty2">暂无提交数据</td></tr>';return}
+    tbody.innerHTML=rows.map(function(r,i){
+      var d={};
+      try{d=JSON.parse(r.content)}catch(e){}
+      return '<tr><td>'+(i+1)+'</td><td>'+(d.name||'--')+'</td><td>'+(d.role||'--')+'</td><td>'+(d.brand||'--')+' '+(d.model||'')+'</td><td>'+(d.valueRating?rss(d.valueRating):'--')+'</td><td style="font-size:12px;color:var(--t2)">'+r.created_at.replace('T',' ').slice(0,19)+'</td><td><button class="btn-sm btn-out" onclick="vd(\''+r.uuid+'\')">详情</button></td></tr>'
+    }).join('');
+    window._subs=rows;
+  }).catch(function(){tbody.innerHTML='<tr><td colspan="7" class="empty2">加载失败，刷新重试</td></tr>'});
+}
+function rss(n){var s='';for(var i=1;i<=5;i++)s+=i<=n?'\u2605':'\u2606';return'<span style="color:#e6b422;font-size:14px">'+s+'</span> ('+n+'\u5206)'}
+function vd(uuid){
+  var r=(window._subs||[]).find(function(x){return x.uuid===uuid});
+  if(!r)return;
+  var d={};try{d=JSON.parse(r.content)}catch(e){}
+  var fgs=[{t:'\u57fa\u672c\u4fe1\u606f',fs:['name','gender','age','experience','role']},{t:'\u8bbe\u5907\u4fe1\u606f',fs:['brand','model','heads','purchaseYear','priceRange','usage']},{t:'\u64cd\u4f5c\u6613\u7528\u6027',fs:['startupSpeed','touchResponse','menuClarity','buttonLayout','displayReadability','langSupport','manualClarity','learningCurve','dailyConvenience']},{t:'\u7ee3\u82b1\u8d28\u91cf',fs:['stitchPrecision','threadBreak','stitchUniformity','complexPattern','fabricAdapt','skipStitch','bobbinTension']},{t:'\u8f6f\u4ef6\u4e0e\u8bbe\u8ba1',fs:['softwareCompat','fileTransfer','importSpeed','builtinPatterns','patternEdit','previewAccuracy','softwareUpdate']},{t:'\u7ef4\u62a4\u4e0e\u6545\u969c',fs:['dailyCleaning','autoLube','alarmAccuracy','faultRecovery','partsReplace','partsAvailability','durability']},{t:'\u566a\u97f3\u4e0e\u632f\u52a8',fs:['noiseHighSpeed','vibrationLevel','noiseEnv','dampeningDesign','longOpComfort']},{t:'\u914d\u4ef6\u4e0e\u8017\u6750',fs:['hoopQuality','threadCompat','bobbinAvailability','needleLife','accessoryPack']},{t:'\u5ba2\u6237\u670d\u52a1',fs:['afterSalesSpeed','techProfessionalism','warrantyPolicy','onlineSupport','communityTraining']},{t:'\u6574\u4f53\u8bc4\u4ef7',fs:['valueRating','recommend','bestFeature','worstPainPoint','additionalComment']}];
+  var lm={name:'\u59d3\u540d',gender:'\u6027\u522b',age:'\u5e74\u9f84\u6bb5',experience:'\u4ece\u4e1a\u5e74\u9650',role:'\u804c\u4e1a\u89d2\u8272',brand:'\u7ee3\u82b1\u673a\u54c1\u724c',model:'\u673a\u5668\u578b\u53f7',heads:'\u673a\u5668\u5934\u6570',purchaseYear:'\u8d2d\u4e70\u5e74\u4efd',priceRange:'\u4ef7\u683c\u533a\u95f4',usage:'\u4e3b\u8981\u7528\u9014',valueRating:'\u6027\u4ef7\u6bd4\u8bc4\u4ef7',recommend:'\u662f\u5426\u63a8\u8350',bestFeature:'\u6700\u6ee1\u610f\u529f\u80fd',worstPainPoint:'\u6700\u9700\u6539\u8fdb',additionalComment:'\u8865\u5145\u5efa\u8bae'};
+  var sk={};fgs.slice(2,10).forEach(function(g){g.fs.forEach(function(f){sk[f]=true})});
+  var h='<p style="font-size:12px;color:var(--t2);margin-bottom:16px">\u65f6\u95f4: '+r.created_at.replace('T',' ').slice(0,19)+'</p>';
+  fgs.forEach(function(g){
+    h+='<table style="margin-bottom:20px"><thead><tr><th colspan="2">'+g.t+'</th></tr></thead>';
+    g.fs.forEach(function(k){
+      var v=d[k];
+      if(v===null||v===undefined||v==='')v='--';
+      else if(Array.isArray(v))v=v.join('\u3001');
+      else if(sk[k]&&typeof v==='number')v=rss(v);
+      h+='<tr><td style="font-weight:600;color:var(--t2);width:160px">'+(lm[k]||k)+'</td><td>'+v+'</td></tr>'
+    });
+    h+='</table>'
+  });
+  document.getElementById('dmBody').innerHTML=h;
+  document.getElementById('dm').style.display='flex'
+}
+function closeDetail(){document.getElementById('dm').style.display='none'}
+function ec(){
+  if(!window._subs||window._subs.length===0){st('\u6ca1\u6709\u6570\u636e');return}
+  var fgs=[{fs:['name','gender','age','experience','role']},{fs:['brand','model','heads','purchaseYear','priceRange','usage']},{fs:['startupSpeed','touchResponse','menuClarity','buttonLayout','displayReadability','langSupport','manualClarity','learningCurve','dailyConvenience']},{fs:['stitchPrecision','threadBreak','stitchUniformity','complexPattern','fabricAdapt','skipStitch','bobbinTension']},{fs:['softwareCompat','fileTransfer','importSpeed','builtinPatterns','patternEdit','previewAccuracy','softwareUpdate']},{fs:['dailyCleaning','autoLube','alarmAccuracy','faultRecovery','partsReplace','partsAvailability','durability']},{fs:['noiseHighSpeed','vibrationLevel','noiseEnv','dampeningDesign','longOpComfort']},{fs:['hoopQuality','threadCompat','bobbinAvailability','needleLife','accessoryPack']},{fs:['afterSalesSpeed','techProfessionalism','warrantyPolicy','onlineSupport','communityTraining']},{fs:['valueRating','recommend','bestFeature','worstPainPoint','additionalComment']}];
+  var keys=[];fgs.forEach(function(g){keys=keys.concat(g.fs)});
+  var csv='\uFEFF'+keys.join(',')+'\n';
+  window._subs.forEach(function(r){
+    var d={};try{d=JSON.parse(r.content)}catch(e){}
+    csv+=keys.map(function(k){var v=d[k];if(v===null||v===undefined)return'';if(Array.isArray(v))return v.join('\u3001');return String(v)}).map(function(c){return'"'+c.replace(/"/g,'""')+'"'}).join(',')+'\n'
+  });
+  var b=new Blob([csv],{type:'text/csv;charset=utf-8'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='survey_'+new Date().toISOString().slice(0,10)+'.csv';a.click();st('\u5bfc\u51fa\u6210\u529f')
+}if(!e.target.closest('input,textarea,select')){if(e.key==='ArrowRight')ns();if(e.key==='ArrowLeft')ps()}});
+document.getElementById('loginPass').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin()});
+document.addEventListener('DOMContentLoaded',function(){ra()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){hideLogin();closeDetail()}if(!e.target.closest('input,textarea,select')){if(e.key==='ArrowRight')ns();if(e.key==='ArrowLeft')ps()}});
+if(TOKEN){ld();showAdmin()}
+</script>
+</body></html>
